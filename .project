@@ -3,6 +3,7 @@
 	<name>MapHacker</name>
 	<comment></comment>
 	<projects>
+		<project>ProSem</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
