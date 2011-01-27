@@ -31,7 +31,10 @@ import de.htwdd.robotics.gui.environment.CurrentPosePlugin;
 import de.htwdd.robotics.gui.environment.EnvironmentPanel;
 import de.htwdd.robotics.gui.environment.LaserScanPlugin;
 import de.htwdd.robotics.gui.environment.MapPlugin;
+import de.htwdd.robotics.gui.environment.PathPlugin;
 import de.htwdd.robotics.gui.environment.SonarScanPlugin;
+import de.htwdd.robotics.map.OccupancyGridMap;
+import de.htwdd.robotics.state.container.StateProvider;
 import de.htwdd.robotics.wienert.MyRobot;
 
 /**
@@ -66,47 +69,19 @@ public class MyRobotFrame extends RobotFrame {
 
 		this.robot = robot;
 
-		
-		
 		ProcessorPanel processorPanel = new ProcessorPanel(robot);
 		addComponent("Processors", new JScrollPane(processorPanel), new Point(
 				50, 50), new Dimension(250, 200), false);
-		LaserComponent laserComponent = new LaserComponent(
-				robot.getLaserScanContainer());
-		addComponent("Laser Scan", laserComponent, new Point(0, 0),
-				new Dimension(250, 250), true);
-
-		ManualSteeringComponent steeringComponent = new ManualSteeringComponent(
-				robot.getVelocityCommandContainer(),
-				robot.getVelocityContainer(), robot.getTimeProvider(), 1, 2);
-		addComponent("Manual Steering", steeringComponent, new Point(0, 250),
-				new Dimension(250, 200), false);
 
 		EnvironmentPanel environmentPanel = new EnvironmentPanel(100);
+		
 		environmentPanel
 				.addPlugIn(new MapPlugin(robot.getMapContainer(), true));
-		environmentPanel.addPlugIn(new LaserScanPlugin(
-				robot.getPoseContainer(), robot.getLaserScanContainer(),
-				new Color(127, 165, 255, 127), Color.BLACK));
-		environmentPanel.addPlugIn(new SonarScanPlugin(
-				robot.getPoseContainer(), robot.getSonarScanContainer(),
-				new Color(127, 255, 165, 127), Color.BLACK));
-		environmentPanel.addPlugIn(new CurrentPosePlugin(robot
-				.getPoseContainer(), Color.RED));
-		addComponent("Environment", environmentPanel, new Point(250, 0),
-				new Dimension(500, 400), false);
 
-		BatteryPanel batteryPanel = new BatteryPanel(
-				robot.getBatteryStateContainer());
-		addComponent("Battery", batteryPanel, new Point(750, 0), new Dimension(
-				200, 130), false);
-
-		BumperPanel bumperPanel = new BumperPanel(
-				robot.getBumperStateContainer(),
-				robot.getBumperResetContainer(), robot.getTimeProvider());
-		addComponent("Bumper", bumperPanel, new Point(750, 320), new Dimension(
-				150, 80), false);
-
+		addComponent("Environment", environmentPanel, new Point(0, 0),
+				new Dimension(1200, 100), true);
+		//PathPlugin pp = new PathPlugin(robot.pathProvider, Color.cyan);
+		//environmentPanel.addPlugIn(new PathPlugin("path", pathProv, Color.CYAN));
 		addUtilityMenuItem(new OpenMaskedOccupancyMapMenuItem(this,
 				robot.getMapContainer()));
 		addUtilityMenuItem(new SaveOccupancyMapMenuItem(this,
@@ -114,7 +89,9 @@ public class MyRobotFrame extends RobotFrame {
 		
 		ThinningProcessor tp = new ThinningProcessor("thinner", 100);
 		tp.setGridMap(robot.getMapContainer().get());
+		tp.setSkeletonMap(robot.getSkeletonGrid());
 		tp.testme();
+		System.exit(0);  // TODO 
 	}
 
 	public MyRobot getRobot() {
@@ -129,11 +106,11 @@ public class MyRobotFrame extends RobotFrame {
 					MyRobot robot = new MyRobot("localhost");
 					MyRobotFrame frame = new MyRobotFrame(robot);
 					frame.setSize(1024, 740);
-
+					
 					// frame.setLocationRelativeTo(null); // center frame
 					frame.setVisible(true);
 					frame.setExtendedState(frame.getExtendedState()
-							| JFrame.MAXIMIZED_BOTH); // maximize frame
+							| JFrame.MAXIMIZED_BOTH ); // maximize frame
 				} catch (IOException exc) {
 					log.error("Robot creation failed", exc);
 					JOptionPane.showMessageDialog(
