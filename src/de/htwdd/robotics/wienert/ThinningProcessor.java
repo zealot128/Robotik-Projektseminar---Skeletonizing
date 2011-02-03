@@ -44,8 +44,8 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 				map.getLastColumn());
 		for (int i = map.getFirstRow(); i < map.getLastRow(); i++) {
 			for (int j = map.getFirstColumn(); j < map.getLastColumn(); j++) {
-				int status = map.isFree(i, j) ? SkeletonCell.STATE_FREE
-						: SkeletonCell.STATE_OCCUPIED;
+				int status = map.isFree(i, j) ? SkeletonCell.STATE_OCCUPIED
+						: SkeletonCell.STATE_FREE;
 				SkeletonCell skeletonCell = new SkeletonCell(status, i, j);
 				skeletonMap.set(i, j, skeletonCell);
 			}
