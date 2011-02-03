@@ -39,6 +39,10 @@ public class ThinnerLuWang extends Thinner {
 	 * 8   4 
 	 * 7 6 5
 	 */
+	
+	/**
+	 * checks if the cell at given position can be thinned acc to algorithm
+	 */
 	public boolean cellIsThinnable(int row, int col, int step) {
 		SkeletonCell currentCell = map.get(row, col);
 
@@ -48,9 +52,6 @@ public class ThinnerLuWang extends Thinner {
 		}
 		// Neighbors of the current cell
 		int[] n = this.transformToArray(collectNeighborsFor(row, col));
-		for (int i : n) {
-			n[i] = Math.abs(n[i] - 1);
-		}
 
 		int numberOfBlack = this.numberOfBlack(n);
 		int numberOfChanges = this.numberOfChanges(n);

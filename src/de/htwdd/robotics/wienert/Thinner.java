@@ -41,7 +41,7 @@ public abstract class Thinner {
 	 */
 	public int[] transformToArray(SkeletonCell[][] neighbors) {
 		int[] n = new int[8];
-		// n[0] = Math.abs( neighbors[1][1].status );
+		// n[0] = Math.abs( neighbors[1][1].status ); // Center Cell
 		n[0] = Math.abs(neighbors[0][0].status);
 		n[1] = Math.abs(neighbors[0][1].status);
 		n[2] = Math.abs(neighbors[0][2].status);
@@ -128,7 +128,4 @@ public abstract class Thinner {
 		return connectivity;
 	}
 
-
-	
-	
 }

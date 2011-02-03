@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -34,6 +35,9 @@ import de.htwdd.robotics.gui.environment.MapPlugin;
 import de.htwdd.robotics.gui.environment.PathPlugin;
 import de.htwdd.robotics.gui.environment.SonarScanPlugin;
 import de.htwdd.robotics.map.OccupancyGridMap;
+import de.htwdd.robotics.state.State;
+import de.htwdd.robotics.state.StateObserver;
+import de.htwdd.robotics.state.StateUnavailableException;
 import de.htwdd.robotics.state.container.StateProvider;
 import de.htwdd.robotics.wienert.MyRobot;
 
@@ -80,8 +84,13 @@ public class MyRobotFrame extends RobotFrame {
 
 		addComponent("Environment", environmentPanel, new Point(0, 0),
 				new Dimension(1200, 100), true);
+		
+		
+		
 		//PathPlugin pp = new PathPlugin(robot.pathProvider, Color.cyan);
 		//environmentPanel.addPlugIn(new PathPlugin("path", pathProv, Color.CYAN));
+		
+		
 		addUtilityMenuItem(new OpenMaskedOccupancyMapMenuItem(this,
 				robot.getMapContainer()));
 		addUtilityMenuItem(new SaveOccupancyMapMenuItem(this,
