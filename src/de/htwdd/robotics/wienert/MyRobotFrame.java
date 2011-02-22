@@ -78,29 +78,23 @@ public class MyRobotFrame extends RobotFrame {
 				50, 50), new Dimension(250, 200), false);
 
 		EnvironmentPanel environmentPanel = new EnvironmentPanel(100);
-		
+
 		environmentPanel
 				.addPlugIn(new MapPlugin(robot.getMapContainer(), true));
 
 		addComponent("Environment", environmentPanel, new Point(0, 0),
-				new Dimension(1200, 100), true);
-		
-		
-		
-		//PathPlugin pp = new PathPlugin(robot.pathProvider, Color.cyan);
-		//environmentPanel.addPlugIn(new PathPlugin("path", pathProv, Color.CYAN));
-		
-		
-		addUtilityMenuItem(new OpenMaskedOccupancyMapMenuItem(this,
-				robot.getMapContainer()));
-		addUtilityMenuItem(new SaveOccupancyMapMenuItem(this,
-				robot.getMapContainer()));
-		
-		ThinningProcessor tp = new ThinningProcessor("thinner", 100);
-		tp.setGridMap(robot.getMapContainer().get());
-		tp.setSkeletonMap(robot.getSkeletonGrid());
-		tp.testme();
-		System.exit(0);  // TODO 
+				new Dimension(600, 600), true);
+
+		// PathPlugin pp = new PathPlugin(robot.pathProvider, Color.cyan);
+		environmentPanel.addPlugIn(new SkeletonMapPlugin("skeletonMapPlugin",
+				robot.skeleton));
+
+		addUtilityMenuItem(new OpenMaskedOccupancyMapMenuItem(this, robot
+				.getMapContainer()));
+		addUtilityMenuItem(new SaveOccupancyMapMenuItem(this, robot
+				.getMapContainer()));
+
+		// System.exit(0); // TODO
 	}
 
 	public MyRobot getRobot() {
@@ -115,15 +109,14 @@ public class MyRobotFrame extends RobotFrame {
 					MyRobot robot = new MyRobot("localhost");
 					MyRobotFrame frame = new MyRobotFrame(robot);
 					frame.setSize(1024, 740);
-					
+
 					// frame.setLocationRelativeTo(null); // center frame
 					frame.setVisible(true);
 					frame.setExtendedState(frame.getExtendedState()
-							| JFrame.MAXIMIZED_BOTH ); // maximize frame
+							| JFrame.MAXIMIZED_BOTH); // maximize frame
 				} catch (IOException exc) {
 					log.error("Robot creation failed", exc);
-					JOptionPane.showMessageDialog(
-							null,
+					JOptionPane.showMessageDialog(null,
 							"The robot could not be created: "
 									+ exc.getMessage(),
 							"Robot creation failed", JOptionPane.ERROR_MESSAGE);

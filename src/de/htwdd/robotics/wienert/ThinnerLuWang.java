@@ -3,7 +3,7 @@ package de.htwdd.robotics.wienert;
 import de.htwdd.robotics.datagrid.ChangingUniversalGridCellOperation;
 
 /**
- * Stefanelli Rosenfeld Thinning Operation, 07chapter6.pdf
+ * Thinning Operation, 07chapter6.pdf
  * 
  * @author zealot64
  * 
@@ -43,7 +43,7 @@ public class ThinnerLuWang extends Thinner {
 	/**
 	 * checks if the cell at given position can be thinned acc to algorithm
 	 */
-	public boolean cellIsThinnable(int row, int col, int step) {
+	private boolean cellIsThinnable(int row, int col, int step) {
 		SkeletonCell currentCell = map.get(row, col);
 
 		if (currentCell.status != SkeletonCell.STATE_OCCUPIED) {
