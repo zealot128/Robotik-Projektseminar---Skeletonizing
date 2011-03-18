@@ -1,5 +1,6 @@
 package de.htwdd.robotics.wienert;
 
+import de.htwdd.robotics.datagrid.ChangingUniversalGridCellOperation;
 import de.htwdd.robotics.map.UniversalGridMap;
 
 public abstract class Thinner {
@@ -15,6 +16,24 @@ public abstract class Thinner {
 
 	public void setMap(UniversalGridMap<SkeletonCell> map) {
 		this.map = map;
+	}
+	
+	public void smooth() {
+		map.traverse(new ChangingUniversalGridCellOperation<SkeletonCell>() {
+			@Override
+			public SkeletonCell process(int row, int col, SkeletonCell cell) {
+				if (cell.status == SkeletonCell.STATE_OCCUPIED) {
+					int[] n = transformToArray(collectNeighborsFor(row, col));
+					int numberOfBlack = numberOfBlack(n);
+					int numberOfChanges = numberOfChanges(n);
+					if (numberOfBlack < 3 && numberOfChanges < 2) {
+						cell.status = SkeletonCell.STATE_FREE;
+					}
+				}
+				return cell;
+					
+			}
+		});
 	}
 	
 	/**
@@ -52,6 +71,7 @@ public abstract class Thinner {
 		n[7] = Math.abs(neighbors[1][0].status);
 		return n;
 	}	
+
 	/**
 	 * Number of Black Pixel == B(P)
 	 * @param neighbors

@@ -1,7 +1,5 @@
 package de.htwdd.robotics.wienert;
 
-import java.awt.Point;
-import java.util.ArrayList;
 
 public class SkeletonCell {
 	public SkeletonCell(int state, int row, int column) {
@@ -10,11 +8,11 @@ public class SkeletonCell {
 		this.row = row;
 	}
 
-	public int clearance;
-	public ArrayList<Point> basePoints;
 
 	public int row;
 	public int col;
+	public boolean visited=false;
+
 
 	static final int STATE_FREE = 0;
 	static final int STATE_OCCUPIED = 1;
@@ -22,21 +20,6 @@ public class SkeletonCell {
 
 	public int status;
 
-	public int getClearance() {
-		return clearance;
-	}
-
-	public void setClearance(int clearance) {
-		this.clearance = clearance;
-	}
-
-	public ArrayList<Point> getBasePoints() {
-		return basePoints;
-	}
-
-	public void setBasePoints(ArrayList<Point> basePoints) {
-		this.basePoints = basePoints;
-	}
 
 	public int getStatus() {
 		return status;
@@ -52,5 +35,7 @@ public class SkeletonCell {
 		this.status = SkeletonCell.STATE_THINNED;
 		this.thinned = true;		
 	}
+	
+	
 
 }

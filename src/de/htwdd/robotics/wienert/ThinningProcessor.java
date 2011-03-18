@@ -1,7 +1,5 @@
 package de.htwdd.robotics.wienert;
 
-import java.lang.reflect.Array;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,46 +19,52 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 	public int rowTo;
 	public int colFrom;
 	public int colTo;
+	private boolean first = true;
 	private GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonContainer;
+	private GridApproximatable approximationAlgorithm;
+
+	public Thinner getThinningAlgorithm() {
+		return thinningAlgorithm;
+	}
 
 	public ThinningProcessor(
 			GridMapContainer<OccupancyGridMap> gridMapContainer,
-			GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonContainer, Thinner thinningAlgorithm
-	) {
-		super("thinning-processor", 10000);
+			GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonContainer,
+			Thinner thinningAlgorithm,
+			GridApproximatable approximationAlgorithm) {
+		super("thinning-processor", 1000);
 		this.skeletonContainer = skeletonContainer;
 		this.gridMapContainer = gridMapContainer;
 		this.thinningAlgorithm = thinningAlgorithm;
 		initialize();
 		this.thinningAlgorithm.map = this.skeletonContainer.get();
 		this.thinningAlgorithm.thinn();
+		this.approximationAlgorithm = approximationAlgorithm;
 	}
 
-	
 	@Override
 	protected void loop() {
-		skeletonContainer.mapChanged(skeletonContainer.get().getBounds());
+		if (first) {
+			for (int i=0; i<20; i++) {
+				this.thinningAlgorithm.thinn();
+			}
+			this.approximationAlgorithm.approximate(thinningAlgorithm.map);
+			skeletonContainer.mapChanged(skeletonContainer.get().getBounds());
+			first = false;
+		}
+				
 	}
 
-	public void testme() {
-		initialize();
-		
-		logNeighbors(collectNeighborsFor(50, 50));
-		loop();
-	}
+
 
 	/**
 	 * Copy given occupancy grid map in our skeleton grid map
 	 */
 	private void initialize() {
-		//this.skeletonContainer = skeletonContainer;
-		//this.gridMapContainer = gridMapContainer;
-		//this.thinningAlgorithm = thinningAlgorithm;
-
 		map = gridMapContainer.get();
-		skeletonContainer.set( new UniversalGridMap<SkeletonCell>(map.getGridSize(),
-				map.getFirstRow(), map.getFirstColumn(), map.getLastRow(),
-				map.getLastColumn()));
+		skeletonContainer.set(new UniversalGridMap<SkeletonCell>(map
+				.getGridSize(), map.getFirstRow(), map.getFirstColumn(), map
+				.getLastRow(), map.getLastColumn()));
 		skeletonMap = skeletonContainer.get();
 		for (int i = map.getFirstRow(); i <= map.getLastRow(); i++) {
 			for (int j = map.getFirstColumn(); j <= map.getLastColumn(); j++) {
@@ -70,6 +74,7 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 				skeletonMap.set(i, j, skeletonCell);
 			}
 		}
+		first = true;
 	}
 
 	public void setGridMap(OccupancyGridMap occupancyGridMap) {
@@ -78,17 +83,19 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 		rowTo = map.getLastRow();
 		colFrom = map.getFirstColumn();
 		colTo = map.getLastColumn();
+		first = true;
 
 	}
 
-	public void setSkeletonMap(GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonGrid) {
+	public void setSkeletonMap(
+			GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonGrid) {
 		skeletonContainer = skeletonGrid;
-		
+		first = true;
 	}
 
 	/* Collect all adjacent neighbors for cell */
 	public SkeletonCell[][] collectNeighborsFor(int my_row, int my_col) {
-		
+
 		SkeletonCell[][] neighborhood = new SkeletonCell[3][3];
 		for (int row = -1; row < 2; row++) {
 			for (int col = -1; col < 2; col++) {

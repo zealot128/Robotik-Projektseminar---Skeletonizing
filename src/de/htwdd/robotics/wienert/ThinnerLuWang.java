@@ -68,13 +68,13 @@ public class ThinnerLuWang extends Thinner {
 
 		if (step == 1) {
 			// c1
-			boolean cond1 = p[1] && p[3] && p[5];
-			boolean cond2 = p[3] && p[5] && p[7];
+			boolean cond1 = p[0] && p[2] && p[4];
+			boolean cond2 = p[2] && p[4] && p[6];
 			return !cond1 || !cond2;
 		} else {
 			// c2
-			boolean cond1 = p[1] && p[3] && p[7];
-			boolean cond2 = p[1] && p[5] && p[7];
+			boolean cond1 = p[0] && p[2] && p[6];
+			boolean cond2 = p[0] && p[4] && p[6];
 			return !cond1 || !cond2;
 		}
 	}

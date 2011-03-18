@@ -3,6 +3,8 @@ package de.htwdd.robotics.wienert;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import org.slf4j.Logger;
@@ -77,24 +80,34 @@ public class MyRobotFrame extends RobotFrame {
 		addComponent("Processors", new JScrollPane(processorPanel), new Point(
 				50, 50), new Dimension(250, 200), false);
 
-		EnvironmentPanel environmentPanel = new EnvironmentPanel(100);
+		final EnvironmentPanel environmentPanel = new EnvironmentPanel(100);
 
 		environmentPanel
 				.addPlugIn(new MapPlugin(robot.getMapContainer(), true));
 
 		addComponent("Environment", environmentPanel, new Point(0, 0),
-				new Dimension(600, 600), true);
+				new Dimension(1200, 800), true);
 
-		// PathPlugin pp = new PathPlugin(robot.pathProvider, Color.cyan);
 		environmentPanel.addPlugIn(new SkeletonMapPlugin("skeletonMapPlugin",
 				robot.skeleton));
-
+		environmentPanel.repaint(500);
+		
+		environmentPanel.setVisible(true);
+//		ThinningControl tc = new ThinningControl(robot.thinner);
+//		addComponent("ThinnControl", tc, new Point(
+//				50, 50), new Dimension(250, 200), false);
+//		
 		addUtilityMenuItem(new OpenMaskedOccupancyMapMenuItem(this, robot
 				.getMapContainer()));
 		addUtilityMenuItem(new SaveOccupancyMapMenuItem(this, robot
 				.getMapContainer()));
-
-		// System.exit(0); // TODO
+		Timer t = new Timer(500, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				environmentPanel.repaint();			
+			}
+		});
+		t.start();
 	}
 
 	public MyRobot getRobot() {

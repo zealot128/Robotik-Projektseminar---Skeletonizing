@@ -3,6 +3,8 @@ package de.htwdd.robotics.wienert;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
@@ -29,14 +31,10 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 		this.skeletonContainer = container;
 	}
 
-
+	private int bla = 0;
 	@Override
 	public void mapChanged() {
-		System.out.println("Map Changed");
 		runInBackground(new Runnable() {
-			
-
-
 			@Override
 			public void run() {
 				finalImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
@@ -47,6 +45,7 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 				Graphics g = paintImage.getGraphics();
 				g.setColor(new Color(0x00000000,true));
 				g.fillRect(0, 0, width, height);
+				
 				skeletonContainer.get().traverse(new PreservingUniversalGridCellOperation<SkeletonCell>() {
 					@Override
 					public void process(int row, int col, SkeletonCell object) {
@@ -54,9 +53,14 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 							//System.out.println("X:" + row + " Y:" + col );
 							paintImage.setRGB(row, col, 0xFFFF0000);
 						}
-						
 					}
 				});
+				Point paint = new Point(478,86);
+				paintImage.setRGB(paint.x , paint.y, 0xFF00FF00);
+				paintImage.setRGB(paint.x + 1 , paint.y +1, 0xFF00FF00);
+				paintImage.setRGB(paint.x + 1 , paint.y -1, 0xFF00FF00);
+				paintImage.setRGB(paint.x - 1 , paint.y +1, 0xFF00FF00);
+				paintImage.setRGB(paint.x - 1 , paint.y -1, 0xFF00FF00);
 				Position lower = map.getWorldCoordinates(map.getFirstRow(), map.getFirstColumn());
 				Position upper = map.getWorldCoordinates(map.getLastRow(), map.getLastColumn());
 				double gridSize = map.getGridSize();
@@ -100,8 +104,6 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 				g.drawRenderedImage(finalImage, transform);
 			}
 		}
-			
-		// TODO Auto-generated method stub
 		super.paint(g);
 	}
 }
