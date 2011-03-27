@@ -41,6 +41,7 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 				int width = map.getRowCount(); 
 				int height = skeletonContainer.get().getColumnCount();		 
 				paintImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+				
 				Graphics g = paintImage.getGraphics();
 				g.setColor(new Color(0x00000000,true));
 				g.fillRect(0, 0, width, height);
@@ -48,15 +49,20 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 				skeletonContainer.get().traverse(new PreservingUniversalGridCellOperation<SkeletonCell>() {
 					@Override
 					public void process(int row, int col, SkeletonCell object) {
+						if (object.isCritical) {
+							paintImage.setRGB(row, col, 0xFF0000FF);
+							return;
+						}
 						if (object.status == SkeletonCell.STATE_OCCUPIED) {
-							paintImage.setRGB(row, col, 0xFFFF0000);
+							paintImage.setRGB(row, col, 0xFF22FF00);
 						}
 						if (object.visited) {
-							paintImage.setRGB(row, col, 0xFF22FF00);
+							paintImage.setRGB(row, col, 0xFFFF0000);
 						}
 						if (object.special == SkeletonCell.SPECIAL_START) {
 							paintImage.setRGB(row, col, 0x6666FF00);
 						}
+
 					}
 				});
 				Position lower = map.getWorldCoordinates(map.getFirstRow(), map.getFirstColumn());

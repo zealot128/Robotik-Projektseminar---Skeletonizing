@@ -1,11 +1,14 @@
 package de.htwdd.robotics.wienert;
 
+import java.awt.Point;
+
 
 public class SkeletonCell {
 	public SkeletonCell(int state, int row, int column) {
 		status = state;
 		this.col = column;
 		this.row = row;
+		this.isCritical = false;
 	}
 
 
@@ -13,6 +16,8 @@ public class SkeletonCell {
 	public int col;
 	public boolean visited=false;
 	public double clearance;
+	public Point basePoint; // one Basepoint
+	public boolean isCritical;
 
 	static final int STATE_FREE = 0;
 	static final int STATE_OCCUPIED = 1;

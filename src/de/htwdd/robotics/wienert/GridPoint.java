@@ -6,6 +6,7 @@ import javax.vecmath.Vector2d;
 public class GridPoint {
 	public int x;
 	public int y;
+	public double clearance;
 	
 	// approximate direction of pixel
 	private Vector2d direction;

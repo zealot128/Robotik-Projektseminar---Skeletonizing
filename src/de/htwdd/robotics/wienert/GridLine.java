@@ -8,6 +8,7 @@ import de.htwdd.robotics.map.UniversalGridMap;
 
 public class GridLine {
 	public ArrayList<GridPoint> points = new ArrayList<GridPoint>();
+	public Point lastFoundPoint; 
 	private OccupancyGridMap map;
 	
 	public void addPoint(int x,int y) {
@@ -17,6 +18,7 @@ public class GridLine {
 		points.add(new GridPoint(p.x, p.y));
 	}	
 	
+	 
 	/**
 	 * 
 	 * @param occupancyGridMap  RO
@@ -31,8 +33,8 @@ public class GridLine {
 				double clearance = checkRadiusForPoint(point, radius);
 				
 				if (clearance > 0) {
-					System.out.println("r/cl: " + radius + "/" + clearance);
 					thinnedMap.get(point.x, point.y).clearance = clearance;
+					point.clearance = clearance;
 					break;
 				}
 			}
@@ -55,10 +57,12 @@ public class GridLine {
 			y = centerPoint.y + radius;
 			x = centerPoint.x + i;
 			if (map.isOccupied(x, y)) {
+				lastFoundPoint = new Point(x,y);
 				return clearance(centerPoint, new Point(x,y));
 			}
 			y = centerPoint.y + radius;
 			if (map.isOccupied(x, y)) {
+				lastFoundPoint = new Point(x,y);
 				return clearance(centerPoint, new Point(x,y));
 			}			
 		}
@@ -67,10 +71,12 @@ public class GridLine {
 			x = centerPoint.x + radius;
 			y = centerPoint.y + i;
 			if (map.isOccupied(x, y)) {
+				lastFoundPoint = new Point(x,y);
 				return clearance(centerPoint, new Point(x,y));
 			}
 			x = centerPoint.x + radius;
 			if (map.isOccupied(x, y)) {
+				lastFoundPoint = new Point(x,y);
 				return clearance(centerPoint, new Point(x,y));
 			}
 		}
@@ -80,6 +86,16 @@ public class GridLine {
 		double x = centerPoint.x - other.x;
 		double y = centerPoint.y - other.y;
 		return Math.sqrt(x*x + y*y);
+	}
+	
+	public void calcCriticalLines(
+			CriticalLineAlgoritm algorithm,
+			UniversalGridMap<SkeletonCell> thinnedMap) {
+		ArrayList<GridPoint> critical = algorithm.getCriticalPoints(this, thinnedMap);
+		for (GridPoint gridPoint : critical) {
+			thinnedMap.get(gridPoint.x, gridPoint.y).isCritical = true;
+		}
+
 	}
 	
 	

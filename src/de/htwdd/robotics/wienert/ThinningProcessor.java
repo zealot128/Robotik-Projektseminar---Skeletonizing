@@ -24,6 +24,7 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 	private boolean first = true;
 	private GridMapContainer<UniversalGridMap<SkeletonCell>> skeletonContainer;
 	private GridApproximatable approximationAlgorithm;
+	private CriticalLineAlgoritm criticalLineFindingAlgorithm;
 
 	public Thinner getThinningAlgorithm() {
 		return thinningAlgorithm;
@@ -42,6 +43,7 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 		this.thinningAlgorithm.map = this.skeletonContainer.get();
 		this.thinningAlgorithm.thinn();
 		this.approximationAlgorithm = approximationAlgorithm;
+		this.criticalLineFindingAlgorithm = new CriticalLineMinimum();
 	}
 
 	@Override
@@ -54,6 +56,7 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 			ArrayList<GridLine> lines = this.approximationAlgorithm.approximate(thinningAlgorithm.map);
 			for (GridLine gridLine : lines) {
 				gridLine.calcClearance(gridMapContainer.get(), skeletonContainer.get());
+				gridLine.calcCriticalLines(criticalLineFindingAlgorithm, skeletonContainer.get());
 			}
 			skeletonContainer.mapChanged(skeletonContainer.get().getBounds());
 			
