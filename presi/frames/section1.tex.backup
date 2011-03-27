@@ -1,0 +1,30 @@
+\section{Zielstellung}
+\begin{frame}{Zielstellung}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{./material/complete.png}
+ % complete.png: 845x703 pixel, 72dpi, 29.81x24.80 cm, bb=0 0 845 703
+ \caption{Übersicht \cite{Thrun1998}}
+ \label{fig:gesamt}
+\end{figure}
+
+
+\end{frame}
+
+
+\section{I. Voronoi-Diagramm}
+\begin{frame}{Voronoi-Diagramm - Berechnung des GVG}
+  nach \cite{Thrun1998}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{./material/voronoi-step1.png}
+ % complete.png: 845x703 pixel, 72dpi, 29.81x24.80 cm, bb=0 0 845 703
+ \caption{Voronoi Schritt 1 \cite{Thrun1998}}
+ \label{fig:gesamt}
+\end{figure}
+  
+  
+\end{frame}
+

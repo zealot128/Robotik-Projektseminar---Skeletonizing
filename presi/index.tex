@@ -1,0 +1,66 @@
+\documentclass{beamer}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8x]{inputenc}
+\usetheme{Dresden}
+\useinnertheme{rounded}
+\setbeamercovered{transparent}
+\setbeamertemplate{footline}[frame number]
+\beamertemplatenavigationsymbolsempty
+%\usepackage{natbib}
+
+\usecolortheme{seahorse}  % Sehr helles Blau
+%\usecolortheme{dove}  % Glattes Weiß
+%\usecolortheme{default}   
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[Projektseminar Robotik]{Projektseminar Robotik}
+\subtitle[Hierarchische Karten]{Hierarchische Karten}
+%\author[S. Wienert]{Stefan Wienert}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\institute[Fak. Informatik -- HTW DD]{Fakultät Informatik\\ 
+      Hochschule für Technik und Wirtschaft -- HTW Dresden}
+\logo{\pgfimage[width=1cm]{material/htw.jpg}}
+
+\titlegraphic{\includegraphics[width=4cm]{material/stefanwienertlogo.png}}
+
+\begin{document}
+
+\frame{
+    \titlepage
+}
+\frame{
+    \frametitle{Inhaltsverzeichnis}
+    \tableofcontents
+}
+
+\include{frames/section1}
+\include{frames/voronoi}
+\include{frames/thinning}
+\include{frames/fazit}
+
+
+\frame{
+  \frametitle{Literatur}
+  \begin{thebibliography}{S. Thrun, 1998}
+
+  \bibitem[S. Thrun, 1998]{Thrun1998}
+    S. Thrun.	
+    \newblock {\em Learning metric-topological maps for indoor mobile robot navigation}
+    \newblock Artificial Intelligence 99/1, 1998.
+  \bibitem[Zhang, Suen 1984]{ZhangSuen}
+    Zhang, Suen
+    \newblock {\em A Fast Parallel Algorithm for
+Thinning Digital Patterns}
+    \newblock Communications of the ACM, 03/1984 Vol.27 Nr. 3
+    
+  \bibitem[Ko, Song 2004]{KoBangYun}
+    B-Y Ko, J-B Song
+    \newblock {\em Real-time building of a thinning-based topological map with metric features}
+    \newblock  Intelligent Robots and Systems, 2004. (IROS 2004) 2-2 okt. 2004   
+  \end{thebibliography}
+
+}
+
+\end{document}
