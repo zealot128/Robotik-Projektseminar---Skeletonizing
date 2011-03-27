@@ -31,7 +31,6 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 		this.skeletonContainer = container;
 	}
 
-	private int bla = 0;
 	@Override
 	public void mapChanged() {
 		runInBackground(new Runnable() {
@@ -50,17 +49,16 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 					@Override
 					public void process(int row, int col, SkeletonCell object) {
 						if (object.status == SkeletonCell.STATE_OCCUPIED) {
-							//System.out.println("X:" + row + " Y:" + col );
 							paintImage.setRGB(row, col, 0xFFFF0000);
+						}
+						if (object.visited) {
+							paintImage.setRGB(row, col, 0xFF22FF00);
+						}
+						if (object.special == SkeletonCell.SPECIAL_START) {
+							paintImage.setRGB(row, col, 0x6666FF00);
 						}
 					}
 				});
-				Point paint = new Point(478,86);
-				paintImage.setRGB(paint.x , paint.y, 0xFF00FF00);
-				paintImage.setRGB(paint.x + 1 , paint.y +1, 0xFF00FF00);
-				paintImage.setRGB(paint.x + 1 , paint.y -1, 0xFF00FF00);
-				paintImage.setRGB(paint.x - 1 , paint.y +1, 0xFF00FF00);
-				paintImage.setRGB(paint.x - 1 , paint.y -1, 0xFF00FF00);
 				Position lower = map.getWorldCoordinates(map.getFirstRow(), map.getFirstColumn());
 				Position upper = map.getWorldCoordinates(map.getLastRow(), map.getLastColumn());
 				double gridSize = map.getGridSize();
@@ -96,7 +94,7 @@ public class SkeletonMapPlugin extends EnvironmentPlugin implements
 	}
 	@Override
 	protected void paint(Graphics2D g) {
-		if (finalImage != null ) {
+		if (finalImage != null && currentSize != null) {
 			synchronized (finalImage) {
 				AffineTransform transform = new AffineTransform();
 				transform.translate(currentSize.getMinX(), currentSize.getMinY());

@@ -4,7 +4,7 @@ import de.htwdd.robotics.datagrid.ChangingUniversalGridCellOperation;
 
 /**
  * Thinning Operation, 07chapter6.pdf
- * 
+ * @deprecated use ThinnerSuen instead
  * @author zealot64
  * 
  */

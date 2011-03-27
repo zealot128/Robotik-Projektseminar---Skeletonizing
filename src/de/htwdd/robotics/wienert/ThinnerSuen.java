@@ -12,7 +12,7 @@ public class ThinnerSuen extends Thinner {
 
 	@Override
 	public void thinn() {
-		smooth();
+		smooth(); // just a try
 		smooth();
 		smooth();
 		todelete = new ArrayList<Point>();
@@ -21,8 +21,7 @@ public class ThinnerSuen extends Thinner {
 			for (step = 1; step <= 2; step++) {
 				map.traverse(new ChangingUniversalGridCellOperation<SkeletonCell>() {
 					@Override
-					public SkeletonCell process(int row, int col,
-							SkeletonCell cell) {
+					public SkeletonCell process(int row, int col, SkeletonCell cell) {
 						if (cell.status == SkeletonCell.STATE_OCCUPIED
 								&& cellIsThinnable(row, col, step)
 								&& !cell.thinned) {
@@ -42,6 +41,11 @@ public class ThinnerSuen extends Thinner {
 		System.out.println("Thinning Done");
 	}
 
+	/**
+	 * Delete all marked cells
+	 * According to algorithm deletion is carried
+	 * out after each step
+	 */
 	private void carryOutDeletion() {
 		for (Point point : todelete) {
 			SkeletonCell cell = map.get(point.x, point.y);
@@ -51,6 +55,14 @@ public class ThinnerSuen extends Thinner {
 
 	}
 
+	/**
+	 * Check if given cell in given step of algorithm 
+	 * satisfies all conditions
+	 * @param row
+	 * @param col
+	 * @param step
+	 * @return
+	 */
 	private boolean cellIsThinnable(int row, int col, int step) {
 		SkeletonCell currentCell = map.get(row, col);
 
@@ -104,15 +116,15 @@ public class ThinnerSuen extends Thinner {
 	 */
 	public int[] transformToArray(SkeletonCell[][] neighbors) {
 		int[] n = new int[8];
-		// n[0] = Math.abs( neighbors[1][1].status ); // Center Cell
-		n[0] = Math.abs(neighbors[0][1].status);
-		n[1] = Math.abs(neighbors[0][2].status);
-		n[2] = Math.abs(neighbors[1][2].status);
-		n[3] = Math.abs(neighbors[2][2].status);
-		n[4] = Math.abs(neighbors[2][1].status);
-		n[5] = Math.abs(neighbors[2][0].status);
-		n[6] = Math.abs(neighbors[1][0].status);
-		n[7] = Math.abs(neighbors[0][0].status);
+//		// n[0] = Math.abs( neighbors[1][1].status ); // Center Cell
+//		n[0] = Math.abs(neighbors[0][1].status);
+//		n[1] = Math.abs(neighbors[0][2].status);
+//		n[2] = Math.abs(neighbors[1][2].status);
+//		n[3] = Math.abs(neighbors[2][2].status);
+//		n[4] = Math.abs(neighbors[2][1].status);
+//		n[5] = Math.abs(neighbors[2][0].status);
+//		n[6] = Math.abs(neighbors[1][0].status);
+//		n[7] = Math.abs(neighbors[0][0].status);
 		// Try new set acc. to http://www.rupj.net/portfolio/docs/skeletonization.pdf
 		n[0] = Math.abs(neighbors[1][2].status);
 		n[1] = Math.abs(neighbors[0][2].status);

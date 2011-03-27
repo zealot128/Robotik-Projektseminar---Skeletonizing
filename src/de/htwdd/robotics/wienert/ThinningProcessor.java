@@ -1,5 +1,7 @@
 package de.htwdd.robotics.wienert;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,16 +46,22 @@ public class ThinningProcessor extends SingleThreadedProcessor {
 
 	@Override
 	protected void loop() {
+		// only do once
 		if (first) {
 			for (int i=0; i<20; i++) {
 				this.thinningAlgorithm.thinn();
 			}
-			this.approximationAlgorithm.approximate(thinningAlgorithm.map);
+			ArrayList<GridLine> lines = this.approximationAlgorithm.approximate(thinningAlgorithm.map);
+			for (GridLine gridLine : lines) {
+				gridLine.calcClearance(gridMapContainer.get(), skeletonContainer.get());
+			}
 			skeletonContainer.mapChanged(skeletonContainer.get().getBounds());
+			
 			first = false;
 		}
 				
 	}
+	
 
 
 

@@ -12,23 +12,26 @@ public class SkeletonCell {
 	public int row;
 	public int col;
 	public boolean visited=false;
-
+	public double clearance;
 
 	static final int STATE_FREE = 0;
 	static final int STATE_OCCUPIED = 1;
 	static final int STATE_THINNED = 0;
 
+	public int special;
+	static final int SPECIAL_NORMAL = 0;
+	static final int SPECIAL_START = 1;
+	
 	public int status;
-
-
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
 
+	
 	public boolean thinned;
 
 	public void thinnMe() {

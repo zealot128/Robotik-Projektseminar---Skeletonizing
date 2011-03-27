@@ -2,7 +2,13 @@ package de.htwdd.robotics.wienert;
 
 import de.htwdd.robotics.datagrid.ChangingUniversalGridCellOperation;
 import de.htwdd.robotics.map.UniversalGridMap;
-
+/**
+ * Algorithm which implements the thinning process
+ * This class provides some helper operations.
+ * The operation shall be executed on this.map through thinn()
+ * @author zealot64
+ *
+ */
 public abstract class Thinner {
 
 	/**
@@ -89,7 +95,8 @@ public abstract class Thinner {
 	}	
 	
 	/**
-	 * 
+	 * Number of Black for a list of integers representing the 
+	 * neighborhood 
 	 * @param n
 	 * @return
 	 */
@@ -105,13 +112,13 @@ public abstract class Thinner {
 
 	/**
 	 * A(P) according to 07chapter6.pdf page 3
-	 * 
+	 * Number of Changes for an array of integers
+	 * [ 0, 0, 1, 1, 1 ...] 
 	 * @return
 	 */
 	public int numberOfChanges(int[] n) {
 		int sum = 0;
 		for (int i = 0; i < 8; i++) {
-			// System.out.println(":" + i + "-" + (i+1) % 8);
 			if (n[i] == 0 && n[(i + 1) % 8] == 1) {
 				sum += 1;
 			}
@@ -132,6 +139,7 @@ public abstract class Thinner {
 		return connectivity(n);
 	}
 	/**
+	 * Connectivity of Point, calculated through his neighborhoos
 	 * C(P)
 	 * @param n
 	 * @return

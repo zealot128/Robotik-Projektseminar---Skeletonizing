@@ -6,45 +6,71 @@ import java.util.ArrayList;
 import de.htwdd.robotics.datagrid.PreservingUniversalGridCellOperation;
 import de.htwdd.robotics.map.UniversalGridMap;
 
+/**
+ * Collect all connected lines for a thinned map.
+ * This algorithm finds a starting point (crossroad). 
+ * And collect all pixels and produces lines
+ * @author zealot64
+ *
+ */
 public class GridApproximatorRecursive implements GridApproximatable {
-
+	static boolean DEBUG = false;
+	
 	private Thinner helper;		// using the connectivity methods etc.
+	
 	private UniversalGridMap<SkeletonCell> map;
 
+	private void log(String st) {
+		if (DEBUG)	System.out.println(st);
+	}
 	@Override
 	public ArrayList<GridLine> approximate(
 			UniversalGridMap<SkeletonCell> thinnedMap) {
 		map = thinnedMap;
-		helper = new ThinnerLuWang();
+		helper = new ThinnerSuen(); // initialize the helper
 		helper.map = map;
+	
 		Point point = findStartPoint();
-		logPoint(point.x, point.y);
-		System.out.println("StartPunkt: " + point.x + ":" + point.y);
+		//logPoint(point.x, point.y);
+		log("StartPunkt: " + point.x + ":" + point.y);
+		map.get(point.x, point.y).special = SkeletonCell.SPECIAL_START;
 		collectPoints(point, null);
-		System.out.println("Found " + lines.size() + " Lines");
+		log("Found " + lines.size() + " Lines");
 		return lines;
 	}
 	
+	/**
+	 * Recursive search-function
+	 * from a point
+	 * @param point  the point, from which to start
+	 * @param includePoint also include another point in the line, but do not touch it
+	 */
 	private void collectPoints(Point point, Point includePoint ) {
+		
 		GridLine currentLine = new GridLine();
 		if (includePoint != null) {
-			currentLine.points.add(includePoint);
+			currentLine.addPoint(includePoint);
 		}
 		Point currentPoint = point;
 		while (true) {
-			System.out.println("Current: " + currentPoint);
-			currentLine.points.add(currentPoint);
-			setVisted(currentPoint);
+			log("Current: " + currentPoint);
+			currentLine.addPoint(currentPoint);		
+			setVisted(currentPoint);				// mark point
 			
-			ArrayList<Point> neighbors = findNeighborsFor(point);
-			int c = connectivity(currentPoint);
+			// find all neighbors which are not marked yet
+			ArrayList<Point> neighbors = findNeighborsFor(currentPoint);
+			int c = connectivity(currentPoint);		// number of connections
+			log("connect, neighbor: " + c + "," + neighbors.size());
 			if (neighbors.size() == 0 ) {
+				// Sackgasse
 				lines.add(currentLine);
 				return;
 			}
 			if (c == 2) {
+				// choose a next point
 				currentPoint = getNextPoint(neighbors,currentPoint);
 			} else if (c > 2) {
+				// crossroad, finish line and continue with new lines
 				if (currentLine.points.size() > 1) {
 					lines.add(currentLine);
 				}
@@ -53,7 +79,7 @@ public class GridApproximatorRecursive implements GridApproximatable {
 				}
 				return;
 			} else {
-				System.out.println("ERROR connectivity < 2?? sollte eigentlich geloescht sein");
+				System.err.println("ERROR connectivity < 2?? sollte eigentlich geloescht sein");
 				return;
 			}
 		}
@@ -97,8 +123,6 @@ public class GridApproximatorRecursive implements GridApproximatable {
 				int x = row + point.x;
 				int y = col + point.y;
 				SkeletonCell cell = map.get(x, y);
-				// System.out.println(x + ":" + y + "-" + cell.status + "/"
-				// +cell.visited);
 				if (!cell.visited && cell.status == SkeletonCell.STATE_OCCUPIED) {
 					neighborhood.add(new Point(x, y));
 				}
@@ -108,7 +132,6 @@ public class GridApproximatorRecursive implements GridApproximatable {
 	}
 
 	private Point startPoint;
-	private Point alternateStartPoint;
 
 	private int connectivity(Point p) {
 		int[] n = helper.transformToArray(helper.collectNeighborsFor(p.x, p.y));
@@ -135,22 +158,23 @@ public class GridApproximatorRecursive implements GridApproximatable {
 					return;
 				}
 
-//				ArrayList<Point> neighbors = findNeighborsFor(new Point(row,col));
 				int c = connectivity(new Point(row, col));
 				if (c == 3) {
-					System.out.println("StartPoint? " + row + "," + col);
+					log("StartPoint Canidate " + row + "," + col);
 					startPoint = new Point(row, col);
 				}
-//				if (neighbors.size() >= 3) {
-//					alternateStartPoint = new Point(row, col);
-//				}
 			}
 		});
 		
 		return startPoint;
 		
 	}
-	
+
+	/**
+	 * Pretty Print a given point with environment on current this.map
+	 * @param x
+	 * @param y
+	 */
 	public void logPoint(int x, int y) {
 		int radius = 5;
 		SkeletonCell cell = map.get(x,y);
@@ -164,8 +188,6 @@ public class GridApproximatorRecursive implements GridApproximatable {
 			buf += "\n";
 		}
 		System.out.println(buf);
-		ArrayList<Point> neighbors = findNeighborsFor(new Point(496,
-				 143));
 	}
 
 }
