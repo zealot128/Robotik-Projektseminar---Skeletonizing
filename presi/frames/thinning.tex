@@ -1,4 +1,5 @@
 \section{II. Thinning/Skelettierung}
+\subsection{Grundlagen}
 \begin{frame}{Thinning}
 \begin{center}
  Idee: Man nehme den kompletten freien Raum (Flure, Räume), und wende darauf einen thinning-Algorithmus an.
@@ -27,8 +28,9 @@
 
 \includegraphics[width=1.0\textwidth]{./material/thinning2.png}
 
-\end{column}\begin{column}[r]{0.6\textwidth}
- 
+\end{column}
+\begin{column}[r]{0.6\textwidth}
+ \pause
  \begin{enumerate}
   \item Aktuelle Zelle ist belegt
   \item Connectivity $ = 1$
@@ -36,10 +38,16 @@
   \item Weitere Bedingungen nach Ausprägung des Algorithmus'
  \end{enumerate}
  
-\end{column}\end{columns}
+\end{column}
+\end{columns}
  
 \end{frame}
+\begin{frame}
+ Berechnung der kritischen Punkte und Linien analog zu Voronoi.
 
+\end{frame}
+
+\subsection{Screencast}
 \begin{frame}
  \centering
  \includegraphics[width=0.85\textwidth]{./material/screencast.png}

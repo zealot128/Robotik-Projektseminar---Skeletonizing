@@ -3,7 +3,6 @@ package de.htwdd.robotics.wienert;
 import java.io.IOException;
 
 import de.htwdd.robotics.Robot;
-import de.htwdd.robotics.depth.DepthImage;
 import de.htwdd.robotics.map.OccupancyGridMap;
 import de.htwdd.robotics.map.OccupancyGridMapIO;
 import de.htwdd.robotics.map.UniversalGridMap;
@@ -43,7 +42,16 @@ public class MyRobot extends Robot {
 		// true, true, true);
 
 		mapContainer = GridMapContainers.newInstance();
-		String filename = "htwZ2_1.png";
+		
+		// maps/buero1.png
+		// maps/maze.png
+		// maps/box.png
+		// maps/htwZ2_2.png
+		// maps/htwZ2_1.png
+		// maps/htw-inf.png
+
+		
+		String filename = "./maps/htwZ2_2.png";
 		mapContainer.set(OccupancyGridMapIO
 				.importFromImage(filename, 0, 0, 0.1));
 

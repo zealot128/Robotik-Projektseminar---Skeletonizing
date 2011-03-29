@@ -86,7 +86,7 @@ public class MyRobotFrame extends RobotFrame {
 				.addPlugIn(new MapPlugin(robot.getMapContainer(), true));
 
 		addComponent("Environment", environmentPanel, new Point(0, 0),
-				new Dimension(1200, 800), true);
+				new Dimension(800, 600), true);
 
 		environmentPanel.addPlugIn(new SkeletonMapPlugin("skeletonMapPlugin",
 				robot.skeleton));

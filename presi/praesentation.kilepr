@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.0.85
-lastDocument=frames/fazit.tex
+lastDocument=frames/thinning.tex
 masterDocument=
 name=Praesentation
 pkg_extIsRegExp=false
@@ -58,30 +58,30 @@ ReadWrite=true
 
 [item:frames/fazit.tex]
 archive=true
-column=39
+column=31
 encoding=UTF-8
 highlight=LaTeX
-line=4
+line=13
 mode=LaTeX
 open=true
 order=4
 
 [item:frames/section1.tex]
 archive=true
-column=0
+column=41
 encoding=UTF-8
 highlight=LaTeX
-line=3
+line=12
 mode=LaTeX
 open=true
 order=0
 
 [item:frames/thinning.tex]
 archive=true
-column=0
+column=63
 encoding=UTF-8
 highlight=LaTeX
-line=24
+line=45
 mode=LaTeX
 open=true
 order=2
@@ -91,17 +91,17 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=46
+line=43
 mode=LaTeX
 open=true
 order=3
 
 [item:index.tex]
 archive=true
-column=21
+column=29
 encoding=UTF-8
 highlight=LaTeX
-line=40
+line=26
 mode=LaTeX
 open=true
 order=1
@@ -137,21 +137,21 @@ open=false
 order=-1
 
 [view-settings,view=0,item:frames/fazit.tex]
-CursorColumn=39
-CursorLine=4
+CursorColumn=31
+CursorLine=13
 
 [view-settings,view=0,item:frames/section1.tex]
-CursorColumn=0
-CursorLine=3
+CursorColumn=41
+CursorLine=12
 
 [view-settings,view=0,item:frames/thinning.tex]
-CursorColumn=0
-CursorLine=24
+CursorColumn=63
+CursorLine=45
 
 [view-settings,view=0,item:frames/voronoi.tex]
 CursorColumn=0
-CursorLine=46
+CursorLine=43
 
 [view-settings,view=0,item:index.tex]
-CursorColumn=21
-CursorLine=40
+CursorColumn=29
+CursorLine=26

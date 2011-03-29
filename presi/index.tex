@@ -12,28 +12,33 @@
 \usecolortheme{seahorse}  % Sehr helles Blau
 %\usecolortheme{dove}  % Glattes Weiß
 %\usecolortheme{default}   
-
+\newcommand{\plainFrameImage}[1]{
+\begin{frame}[plain]
+%\begin{changemargin}{-1cm}{-1cm}
+\begin{center}
+\includegraphics[width=108mm,height=76mm,keepaspectratio]{#1}
+\end{center}
+%\end{changemargin}
+\end{frame}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title[Projektseminar Robotik]{Projektseminar Robotik}
 \subtitle[Hierarchische Karten]{Hierarchische Karten}
-%\author[S. Wienert]{Stefan Wienert}
+\author[S. Wienert]{Stefan Wienert}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \institute[Fak. Informatik -- HTW DD]{Fakultät Informatik\\ 
       Hochschule für Technik und Wirtschaft -- HTW Dresden}
 \logo{\pgfimage[width=1cm]{material/htw.jpg}}
 
-\titlegraphic{\includegraphics[width=4cm]{material/stefanwienertlogo.png}}
-
+%\titlegraphic{\includegraphics[width=4cm]{material/stefanwienertlogo.png}}
+\setbeamercovered{invisible}
 \begin{document}
 
 \frame{
     \titlepage
 }
-\frame{
-    \frametitle{Inhaltsverzeichnis}
-    \tableofcontents
-}
+%\frame{    \frametitle{Inhaltsverzeichnis}    \tableofcontents}
 
 \include{frames/section1}
 \include{frames/voronoi}
